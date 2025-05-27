@@ -39,6 +39,7 @@ func (s *InMemoryStorage) StoreMailContent(mail string, content string) error {
 
 func (s *InMemoryStorage) GetMailContent(mail string) (string, error) {
 	if content, ok := s.mails[mail]; ok {
+		delete(s.mails, mail)
 		return content, nil
 	}
 	return "", errors.New("mail not found")
