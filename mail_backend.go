@@ -2,7 +2,6 @@ package main
 
 import (
 	"io"
-	"log"
 	"slices"
 	"strings"
 
@@ -33,6 +32,7 @@ func (s *MailSession) AuthMechanisms() []string {
 func (s *MailSession) Auth(mechanism string) (sasl.Server, error) {
 	return nil, nil
 }
+
 func (s *MailSession) Mail(from string, opts *smtp.MailOptions) error {
 	return nil
 }
@@ -60,7 +60,6 @@ func (s *MailSession) Data(r io.Reader) error {
 	if b, err := io.ReadAll(r); err != nil {
 		return err
 	} else {
-		log.Println("Data:", string(b))
 		s.Storage.StoreMailContent(s.mail, string(b))
 	}
 	return nil
