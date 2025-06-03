@@ -60,7 +60,7 @@ func (s *MailSession) Data(r io.Reader) error {
 	if b, err := io.ReadAll(r); err != nil {
 		return err
 	} else {
-		s.Storage.StoreMailContent(s.mail, string(b))
+		s.Storage.StoreMailContent(s.mail, ExtractMailContent(string(b)))
 	}
 	return nil
 }
