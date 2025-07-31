@@ -11,5 +11,4 @@ COPY --from=go_builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=go_builder /usr/share/zoneinfo /usr/share/zoneinfo
 ENV TZ="Europe/Budapest"
 ENV GIN_MODE="release"
-
 ENTRYPOINT ["./app"]
