@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"os"
 )
 
@@ -61,4 +62,5 @@ func GetTLSConfigFromAcmeJson(path string, domain string) (*tls.Config, error) {
 			MinVersion:   tls.VersionTLS12,
 		}, nil
 	}
+	return nil, errors.New("No certificate found!")
 }
