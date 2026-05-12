@@ -19,10 +19,18 @@ func main() {
 
 	go func() {
 		server := smtp.NewServer(&MailBackend{Domain: env.Domain, Storage: storage})
-		server.Addr = ":25"
-		server.AllowInsecureAuth = true
-		log.Println("Starting server at", server.Addr)
-		smtpSignal <- server.ListenAndServe()
+
+		if tlsConfig, err := GetTLSConfigFromAcmeJson(env.AcmeJsonPath, env.Domain); err == nil {
+			server.Addr = ":587"
+			server.TLSConfig = tlsConfig
+			log.Printf("Start in secure mode at", server.Addr)
+			smtpSignal <- server.ListenAndServeTLS()
+		} else {
+			server.Addr = ":25"
+			server.AllowInsecureAuth = true
+			log.Printf("Start in insecure mode at", server.Addr)
+			smtpSignal <- server.ListenAndServe()
+		}
 	}()
 	go func() {
 		router := gin.Default()
