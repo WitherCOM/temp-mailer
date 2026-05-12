@@ -5,6 +5,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/emersion/go-sasl"
 	"github.com/emersion/go-smtp"
 )
 
@@ -22,6 +23,17 @@ type MailSession struct {
 	Storage Storage
 	Conn    *smtp.Conn
 	mail    string
+}
+
+func (s *MailSession) AuthMechanisms() []string {
+	return []string{sasl.Plain}
+}
+
+// Auth is the handler for supported authenticators.
+func (s *MailSession) Auth(mech string) (sasl.Server, error) {
+	return sasl.NewPlainServer(func(identity, username, password string) error {
+		return nil
+	}), nil
 }
 
 func (s *MailSession) Mail(from string, opts *smtp.MailOptions) error {
