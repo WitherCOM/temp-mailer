@@ -20,7 +20,7 @@ func main() {
 	go func() {
 		server := smtp.NewServer(&MailBackend{Domain: env.Domain, Storage: storage})
 
-		if tlsConfig, err := GetTLSConfigFromAcmeJson(env.AcmeJsonPath, env.Domain); err == nil {
+		if tlsConfig, err := GetTLSConfigFromAcmeJson(env.AcmeJsonPath, env.SmtpDomain); err == nil {
 			server.Addr = ":587"
 			server.TLSConfig = tlsConfig
 			log.Printf("Start in secure mode at", server.Addr)
