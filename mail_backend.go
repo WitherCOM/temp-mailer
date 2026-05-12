@@ -5,7 +5,6 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/emersion/go-sasl"
 	"github.com/emersion/go-smtp"
 )
 
@@ -23,14 +22,6 @@ type MailSession struct {
 	Storage Storage
 	Conn    *smtp.Conn
 	mail    string
-}
-
-func (s *MailSession) AuthMechanisms() []string {
-	return []string{}
-}
-
-func (s *MailSession) Auth(mechanism string) (sasl.Server, error) {
-	return nil, nil
 }
 
 func (s *MailSession) Mail(from string, opts *smtp.MailOptions) error {
